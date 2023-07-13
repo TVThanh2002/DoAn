@@ -1,0 +1,250 @@
+package GiaoDien;
+
+import javax.swing.JPanel;
+import java.awt.Color;
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
+import java.awt.GridLayout;
+import java.awt.Font;
+import javax.swing.JTextField;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.table.DefaultTableModel;
+
+import DBKetNoi.DBConnect;
+
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.awt.event.ActionEvent;
+import javax.swing.JComboBox;
+
+public class TrongTai extends JPanel {
+	JLabel lblTitle;
+	DefaultTableModel modelTrongTai = new DefaultTableModel(0,0);
+	String HEADR[] = new String[] {"Trận Đấu","Mã Trọng Tài","Tên Trọng Tài","Địa Chỉ"};
+	private JTextField txtTranDau;
+	private JTextField txtIDTrongTai;
+	private JTextField txtTenTrongTai;
+	private JTextField txtDiaChi;
+	private JTable table;
+	JButton btnThem,btnXoa,btnCapNhat;
+	int row=-1;
+	JComboBox cbbTranDau;
+//	private DBConnect dbconnect;
+
+	/**
+	 * Create the panel.
+	 */
+	public TrongTai(DBConnect dbconnect) {
+		setBackground(Color.getHSBColor(222, 222, 229));
+		setSize(767, 520);
+		
+		JPanel panel = new JPanel();
+		panel.setBackground(Color.getHSBColor(222, 222, 229));
+		
+		JScrollPane scrollPane = new JScrollPane();
+		
+		JPanel panel_1 = new JPanel();
+		panel_1.setBackground(Color.getHSBColor(222, 222, 229));
+		
+		lblTitle = new JLabel("Giải đấu:");
+		lblTitle.setFont(new Font("Tahoma", Font.BOLD, 20));
+		
+		cbbTranDau = new JComboBox();
+		GroupLayout groupLayout = new GroupLayout(this);
+		groupLayout.setHorizontalGroup(
+			groupLayout.createParallelGroup(Alignment.LEADING)
+				.addGroup(groupLayout.createSequentialGroup()
+					.addContainerGap(114, Short.MAX_VALUE)
+					.addComponent(panel, GroupLayout.PREFERRED_SIZE, 326, GroupLayout.PREFERRED_SIZE)
+					.addGap(18)
+					.addComponent(cbbTranDau, GroupLayout.PREFERRED_SIZE, 70, GroupLayout.PREFERRED_SIZE)
+					.addGap(18)
+					.addComponent(panel_1, GroupLayout.PREFERRED_SIZE, 124, GroupLayout.PREFERRED_SIZE)
+					.addGap(97))
+				.addGroup(groupLayout.createSequentialGroup()
+					.addGap(55)
+					.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 654, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(58, Short.MAX_VALUE))
+				.addGroup(groupLayout.createSequentialGroup()
+					.addContainerGap(228, Short.MAX_VALUE)
+					.addComponent(lblTitle, GroupLayout.PREFERRED_SIZE, 363, GroupLayout.PREFERRED_SIZE)
+					.addGap(176))
+		);
+		groupLayout.setVerticalGroup(
+			groupLayout.createParallelGroup(Alignment.LEADING)
+				.addGroup(groupLayout.createSequentialGroup()
+					.addGap(20)
+					.addComponent(lblTitle, GroupLayout.PREFERRED_SIZE, 38, GroupLayout.PREFERRED_SIZE)
+					.addGap(18)
+					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+						.addComponent(panel, GroupLayout.PREFERRED_SIZE, 156, GroupLayout.PREFERRED_SIZE)
+						.addComponent(panel_1, GroupLayout.PREFERRED_SIZE, 159, GroupLayout.PREFERRED_SIZE)
+						.addComponent(cbbTranDau, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addGap(33)
+					.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 219, GroupLayout.PREFERRED_SIZE)
+					.addGap(33))
+		);
+		table = new JTable();
+		table.setAutoCreateRowSorter(true);
+		scrollPane.setViewportView(table);
+		modelTrongTai.setColumnIdentifiers(HEADR);
+		table.setModel(modelTrongTai);
+		panel_1.setLayout(new GridLayout(0, 1, 0, 25));
+		
+		btnThem = new JButton("Thêm");
+		btnThem.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		panel_1.add(btnThem);
+		
+		btnCapNhat = new JButton("Cập nhật");
+		btnCapNhat.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		panel_1.add(btnCapNhat);
+		
+		btnXoa = new JButton("Xóa");
+		btnXoa.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		panel_1.add(btnXoa);
+		panel.setLayout(new GridLayout(0, 2, 0, 20));
+		
+		JLabel lblNewLabel_0 = new JLabel("Mã trọng tài:");
+		lblNewLabel_0.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		panel.add(lblNewLabel_0);
+		
+		txtIDTrongTai = new JTextField();
+		panel.add(txtIDTrongTai);
+		txtIDTrongTai.setColumns(10);
+		
+		JLabel lblNewLabel_1 = new JLabel("Tên trọng tài:");
+		lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		panel.add(lblNewLabel_1);
+		
+		txtTenTrongTai = new JTextField();
+		panel.add(txtTenTrongTai);
+		txtTenTrongTai.setColumns(10);
+		
+		JLabel lblNewLabel = new JLabel("Trận Đấu:");
+		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		panel.add(lblNewLabel);
+		
+		txtTranDau = new JTextField();
+		panel.add(txtTranDau);
+		txtTranDau.setColumns(10);
+		
+		JLabel lblNewLabel_2 = new JLabel("Địa Chỉ:");
+		lblNewLabel_2.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		panel.add(lblNewLabel_2);
+		
+		txtDiaChi = new JTextField();
+		panel.add(txtDiaChi);
+		txtDiaChi.setColumns(10);
+		setLayout(groupLayout);
+		modelTrongTai.setColumnIdentifiers(HEADR);
+		
+		Event(dbconnect);
+		
+	}
+	public void Event(DBConnect dbconnect) {
+		//this.dbconnect = dbconnect;
+		table.addMouseListener(new MouseListener() {
+			
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				// TODO Auto-generated method stub
+				row = table.getSelectedRow();
+				txtTranDau.setText(modelTrongTai.getValueAt(row, 0).toString());
+				txtIDTrongTai.setText(modelTrongTai.getValueAt(row, 1).toString());
+				txtTenTrongTai.setText(modelTrongTai.getValueAt(row, 2).toString());
+				txtDiaChi.setText(modelTrongTai.getValueAt(row, 3).toString());
+				cbbTranDau.setSelectedItem(modelTrongTai.getValueAt(row, 0).toString());
+			}
+		});
+		btnThem.addActionListener(new ActionListener() {			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				try {
+					dbconnect.getStmt().execute("INSERT INTO TrongTai VALUES('"+cbbTranDau.getSelectedItem().toString()+"',N'"+txtIDTrongTai.getText()+"',N'"+txtTenTrongTai.getText()+"',N'"+txtDiaChi.getText()+"')");
+					modelTrongTai.addRow(new String[] {cbbTranDau.getSelectedItem().toString(),txtIDTrongTai.getText(),txtTenTrongTai.getText(),txtDiaChi.getText()});
+					txtTranDau.setText("");
+					txtIDTrongTai.setText("");
+					txtTenTrongTai.setText("");
+					txtDiaChi.setText("");
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+			}
+		});
+		
+		btnXoa.addActionListener(new ActionListener() {			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				try {
+					dbconnect.getStmt().execute("DELETE FROM ID WHERE ID='"+modelTrongTai.getValueAt(row, 0).toString()+"'");
+					modelTrongTai.removeRow(row);
+					txtTranDau.setText("");
+					txtIDTrongTai.setText("");
+					txtTenTrongTai.setText("");
+					txtDiaChi.setText("");
+					row=-1;
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
+		btnCapNhat.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				try {
+					dbconnect.getStmt().execute("UPDATE TrongTai SET Tran=N'"+cbbTranDau.getSelectedItem().toString()+"',Ten=N'"+txtTenTrongTai.getText()+"',DiaChi=N'"+txtDiaChi.getText()+"' WHERE ID='"+modelTrongTai.getValueAt(row, 0).toString()+"'");
+					modelTrongTai.setValueAt(cbbTranDau.getSelectedItem().toString(), row, 1);
+					modelTrongTai.setValueAt(txtTenTrongTai.getText(), row, 2);
+					modelTrongTai.setValueAt(txtDiaChi.getText(), row, 3);
+					txtIDTrongTai.setText("");     
+					txtTranDau.setText("");
+					txtTenTrongTai.setText("");
+					txtDiaChi.setText("");
+					row=-1;
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
+	}
+}
