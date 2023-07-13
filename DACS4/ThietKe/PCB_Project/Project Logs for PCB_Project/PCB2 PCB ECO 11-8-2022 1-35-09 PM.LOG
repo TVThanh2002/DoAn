@@ -1,0 +1,8 @@
+Change Net Name : Old Net Name=Net_1 New Net Name=NetR2_2
+Added Member To Class: ClassName=Sheet1 Member=Component C1 104
+Added Member To Class: ClassName=Sheet1 Member=Component C2 33pF
+Added Member To Class: ClassName=Sheet1 Member=Component C3 33pF
+Added Member To Class: ClassName=Sheet1 Member=Component U1 PIC16F887-PU
+Added Member To Class: ClassName=Sheet1 Member=Component U2 LM35
+Added Member To Class: ClassName=Sheet1 Member=Component X1 8Mhz
+Added Room: Name=Sheet1
